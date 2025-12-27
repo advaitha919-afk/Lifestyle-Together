@@ -2,115 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lifestyle Together Login</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background-color: #0b1d4f; /* dark blue */
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center; /* horizontal center */
-      height: 100vh;
-    }
-
-    /* Top heading */
-    h1 {
-      margin-top: 20px; /* distance from top */
-      text-align: center;
-      font-size: 2.5em;
-      color: #f5e38d; /* mild yellow */
-    }
-
-    /* Content below the heading */
-    .content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex: 1; /* takes remaining space */
-    }
-
-    /* Profile info */
-    .profile-info {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 1.2em;
-    }
-
-    .profile-info span {
-      margin: 0 10px;
-      font-weight: bold;
-    }
-
-    /* Login container */
-    .login-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .login-symbol {
-      width: 80px;
-      height: 80px;
-      background-color: #f5e38d; /* mild yellow circle */
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 15px;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    .login-symbol:hover {
-      transform: scale(1.1);
-    }
-
-    .login-symbol span {
-      font-size: 2em;
-      color: #0b1d4f; /* dark blue inside circle */
-      font-weight: bold;
-    }
-
-    .login-text {
-      font-size: 1.2em;
-      cursor: pointer;
-      color: #f5e38d;
-      transition: color 0.2s;
-    }
-
-    .login-text:hover {
-      color: #ffffff;
-    }
-
-  </style>
+  <title>Lifestyle Together</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <!-- Top heading -->
-  <h1>Lifestyle Together</h1>
+<body class="login-body">
 
-  <!-- Center content -->
-  <div class="content">
-    <div class="profile-info">
-      Harish kathireshan, B.Com, MBA, CFA</p> <span>WEDS</span></p> Dr. Advaitha, MBBS, DGO, IVF
+  <h1 class="title-top">Lifestyle Together</h1>
+
+  <div class="login-card">
+    <h2 class="couple-title">
+      Harish Pradesan <br>
+      <span class="small">Financial Analyst</span><br><br>
+      <span class="weds">WEDS</span><br><br>
+      Dr. Agraita <br>
+      <span class="small">MBBS, IVF Specialist</span>
+    </h2>
+
+    <div class="who-are-you">
+      <p><strong>Who are you?</strong></p>
+      <label>
+        <input type="radio" name="userRole" value="her"> I am Her
+      </label><br>
+      <label>
+        <input type="radio" name="userRole" value="him"> I am Him
+      </label>
     </div>
 
-    <div class="login-container">
-      <div class="login-symbol" onclick="login()">
-        <span>→</span>
-      </div>
-      <div class="login-text" onclick="login()">Click to Login</div>
-    </div>
+    <button onclick="login()">Login</button>
   </div>
 
-  <script>
-    function login() {
-      window.location.href = "dashboard.html"; // go to dashboard
-    }
-  </script>
+<script>
+function login() {
+  const role = document.querySelector('input[name="userRole"]:checked');
+  if (!role) {
+    alert("Please select who you are");
+    return;
+  }
+  localStorage.setItem("userRole", role.value);
+  window.location.href = "dashboard.html";
+}
+</script>
+
 </body>
 </html>
