@@ -2,199 +2,133 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Our Space Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div class="header">
-    <h1>Our Space Dashboard</h1>
-    <div class="top-actions">
-      <span>Plan your day</span> | 
-      <span>Track your partner</span> | 
-      <span>Focus together</span>
-    </div>
-  </div>
+<body class="dashboard-body">
 
-  <div class="container">
-    <!-- Left Column: Period & Current Status -->
-    <div class="left-column">
-      <div class="period">
-        <h3>Period</h3>
-        <input type="date" id="period-input">
-      </div>
-      <div class="current-status">
-        <h3>Current Status</h3>
-        <input type="text" id="status-input" placeholder="Update your status">
-        <button onclick="saveStatus()">Save</button>
-        <p id="status-display">None</p>
-      </div>
-    </div>
+<script>
+const role = localStorage.getItem("userRole");
+let you = "", partner = "";
 
-    <!-- Center Column: Weekly Planner -->
-    <div class="center-column">
-      <h2>Daily Compulsory Tasks</h2>
-      <table>
-        <tr>
-          <th>Task / Day</th>
-          <th>Mon</th>
-          <th>Tue</th>
-          <th>Wed</th>
-          <th>Thu</th>
-          <th>Fri</th>
-          <th>Sat</th>
-          <th>Sun</th>
-        </tr>
+if (role === "her") {
+  you = "Advaitha";
+  partner = "Harish";
+} else {
+  you = "Harish";
+  partner = "Advaitha";
+}
 
-        <!-- Studying -->
-        <tr>
-          <td>Studying (You)</td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="studying-you-mon"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="studying-you-tue"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="studying-you-wed"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="studying-you-thu"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="studying-you-fri"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="studying-you-sat"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="studying-you-sun"></td>
-        </tr>
-        <tr>
-          <td>Studying (Partner)</td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="studying-partner-mon"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="studying-partner-tue"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="studying-partner-wed"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="studying-partner-thu"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="studying-partner-fri"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="studying-partner-sat"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="studying-partner-sun"></td>
-        </tr>
+const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const tasks = ["Study 2 hrs","Exercise 1 hr","15 min Call","Snap / Video"];
 
-        <!-- Exercise -->
-        <tr>
-          <td>Exercise (You)</td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="exercise-you-mon"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="exercise-you-tue"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="exercise-you-wed"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="exercise-you-thu"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="exercise-you-fri"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="exercise-you-sat"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="exercise-you-sun"></td>
-        </tr>
-        <tr>
-          <td>Exercise (Partner)</td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="exercise-partner-mon"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="exercise-partner-tue"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="exercise-partner-wed"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="exercise-partner-thu"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="exercise-partner-fri"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="exercise-partner-sat"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="exercise-partner-sun"></td>
-        </tr>
+function saveTask(day, task, value) {
+  localStorage.setItem(`${day}-${task}`, value);
+}
 
-        <!-- Snap/Video -->
-        <tr>
-          <td>Snap / Video (You)</td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="snap-you-mon"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="snap-you-tue"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="snap-you-wed"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="snap-you-thu"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="snap-you-fri"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="snap-you-sat"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="snap-you-sun"></td>
-        </tr>
-        <tr>
-          <td>Snap / Video (Partner)</td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="snap-partner-mon"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="snap-partner-tue"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="snap-partner-wed"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="snap-partner-thu"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="snap-partner-fri"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="snap-partner-sat"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="snap-partner-sun"></td>
-        </tr>
-
-        <!-- 15-min Call (Single Row) -->
-        <tr>
-          <td>15-min Call</td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="call-mon"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="call-tue"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="call-wed"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="call-thu"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="call-fri"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="call-sat"></td>
-          <td><input type="checkbox" class="daily-checkbox" data-key="call-sun"></td>
-        </tr>
-      </table>
-
-      <button onclick="checkDailyTasks()">Save Daily Tasks</button>
-
-      <!-- Motivational Points -->
-      <div class="reminder">
-        <p>• Don’t stress, whatever happens, tell your partner</p>
-        <p>• Study for your future</p>
-        <p>• Stay disciplined</p>
-        <p>• First proposal: Nov 24, 2024(him)</p>
-        <p>• Accepted: Mar 26, 2025(her)</p>
-        <p>• Take short breaks if tired, but always keep going</p>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Load saved data
-    window.onload = function() {
-      document.querySelectorAll('.daily-checkbox').forEach(box => {
-        const key = box.dataset.key;
-        box.checked = localStorage.getItem(key) === 'true';
-      });
-
-      const status = localStorage.getItem('current-status');
-      if(status) {
-        document.getElementById('status-display').textContent = status;
-        document.getElementById('status-input').value = status;
+function loadTasks() {
+  days.forEach(d => {
+    tasks.forEach(t => {
+      const box = document.getElementById(`${d}-${t}`);
+      if (localStorage.getItem(`${d}-${t}`) === "true") {
+        box.checked = true;
       }
-
-      const period = localStorage.getItem('period-date');
-      if(period) document.getElementById('period-input').value = period;
-    }
-
-    function saveStatus() {
-      const val = document.getElementById('status-input').value;
-      localStorage.setItem('current-status', val);
-      document.getElementById('status-display').textContent = val;
-      alert('Status saved!');
-    }
-
-    function checkDailyTasks() {
-      const days = ["sun","mon","tue","wed","thu","fri","sat"];
-      const today = new Date();
-      const day = days[today.getDay()]; // auto today
-
-      const notDone = [];
-
-      document.querySelectorAll('.daily-checkbox').forEach(box => {
-        const key = box.dataset.key;
-
-        // Only today's checkboxes
-        if(key.includes(day)) {
-          localStorage.setItem(key, box.checked);
-          if(!box.checked) {
-            let taskLabel = box.parentElement.parentElement.children[0].textContent;
-            notDone.push(taskLabel);
-          }
-        }
-      });
-
-      if(notDone.length > 0) {
-        alert("You didn’t tick these tasks for today (" + day.charAt(0).toUpperCase() + day.slice(1) + "):\n" + notDone.join('\n'));
-      } else {
-        alert("All daily tasks completed for today! Great job 😎");
-      }
-    }
-
-    // Save period date
-    document.getElementById('period-input').addEventListener('change', function() {
-      localStorage.setItem('period-date', this.value);
     });
-  </script>
+  });
+}
+
+function alertToday() {
+  const today = new Date().toLocaleDateString("en-US",{weekday:"long"});
+  tasks.forEach(t => {
+    if (localStorage.getItem(`${today}-${t}`) !== "true") {
+      alert(`⚠️ ${today}: ${t} not completed`);
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("youName").innerText = you;
+  document.getElementById("partnerName").innerText = partner;
+  loadTasks();
+  alertToday();
+});
+</script>
+
+<header class="top-bar">
+  <span>Plan your day</span>
+  <span>Track your partner</span>
+  <span>Focus together</span>
+</header>
+
+<div class="layout">
+
+  <!-- LEFT -->
+  <div class="side-box">
+    <h3>Period</h3>
+    <input type="date" onchange="localStorage.setItem('period',this.value)">
+
+    <h3>Status</h3>
+    <select onchange="localStorage.setItem('status',this.value)">
+      <option>Studying</option>
+      <option>Tuition</option>
+      <option>Eating</option>
+      <option>Busy</option>
+      <option>Rest</option>
+    </select>
+  </div>
+
+  <!-- CENTER -->
+  <div class="center-box">
+    <h2>You: <span id="youName"></span> | Partner: <span id="partnerName"></span></h2>
+
+    <table class="planner">
+      <tr>
+        <th>Day</th>
+        <th>Study</th>
+        <th>Exercise</th>
+        <th>Call</th>
+        <th>Snap</th>
+      </tr>
+
+      <script>
+        days.forEach(d => {
+          document.write(`<tr><td>${d}</td>`);
+          tasks.forEach(t => {
+            document.write(`
+              <td>
+                <input type="checkbox"
+                id="${d}-${t}"
+                onchange="saveTask('${d}','${t}',this.checked)">
+              </td>
+            `);
+          });
+          document.write("</tr>");
+        });
+      </script>
+    </table>
+
+    <div class="remember-box">
+      <h4>Remember</h4>
+      <ul>
+        <li>Don’t stress. Talk to your partner.</li>
+        <li>Study for your future.</li>
+        <li>Stay disciplined.</li>
+        <li>First proposal: Nov 24, 2024 (Him)</li>
+        <li>Accepted: Mar 26, 2025 (Her)</li>
+        <li>Take short breaks, but keep going.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="side-box">
+    <h3>Notes</h3>
+    <textarea rows="8"
+      onchange="localStorage.setItem('notes',this.value)"
+      placeholder="Things to remember..."></textarea>
+  </div>
+
+</div>
+
 </body>
 </html>

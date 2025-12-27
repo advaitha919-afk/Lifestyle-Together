@@ -1,75 +1,101 @@
 body {
   margin: 0;
-  padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #0b1e4f; /* dark blue background */
-  color: #fff;
 }
 
-h1, h2, h3 {
+/* LOGIN */
+.login-body {
+  background: #0a1e3f;
+  color: white;
+  min-height: 100vh;
   text-align: center;
-  margin: 10px 0;
 }
 
-.header .top-actions {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 16px;
+.main-title {
+  margin-top: 25px;
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 20px;
+.login-card {
+  background: #122b5f;
+  width: 340px;
+  margin: 30px auto;
+  padding: 25px;
+  border-radius: 12px;
 }
 
-/* Left Column */
-.left-column {
-  width: 15%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.name-block {
+  font-size: 18px;
+  font-weight: bold;
 }
 
-input[type="text"], input[type="date"] {
-  width: 100%;
-  padding: 5px;
-  margin-top: 5px;
-  box-sizing: border-box;
+.degree {
+  font-size: 14px;
+  opacity: 0.8;
 }
 
-button {
-  margin-top: 5px;
-  padding: 5px 10px;
+.weds-text {
+  margin: 12px 0;
+  font-size: 20px;
+  color: #ffd54f;
+}
+
+.login-btn {
+  margin-top: 15px;
+  padding: 10px 25px;
+  border: none;
+  background: #ffd54f;
   cursor: pointer;
 }
 
-/* Center Column */
-.center-column {
-  width: 55%;
-  background-color: #1c2c5a;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #000;
+/* DASHBOARD */
+.dashboard-body {
+  background: #0a1e3f;
+  color: white;
 }
 
-.center-column table {
+.top-bar {
+  display: flex;
+  justify-content: space-around;
+  background: #122b5f;
+  padding: 10px;
+}
+
+.layout {
+  display: flex;
+  padding: 10px;
+}
+
+.side-box {
+  width: 20%;
+  background: #122b5f;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.center-box {
+  width: 60%;
+  background: #163a7a;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.planner {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 15px;
 }
 
-.center-column th, .center-column td {
-  border: 1px solid #fff;
+.planner th, .planner td {
+  border: 1px solid #ccc;
+  padding: 5px;
   text-align: center;
-  padding: 8px;
-  font-size: 14px;
 }
 
-.reminder {
-  font-size: 12px;
-  margin-top: 15px;
-  line-height: 1.4;
+.remember-box {
+  background: #fff3cd;
+  color: #000;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 6px;
 }
