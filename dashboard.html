@@ -1,134 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Dashboard</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body class="dashboard-body">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lifestyle Together - Dashboard</title>
+<link rel="stylesheet" href="style.css">
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
 
 <script>
-const role = localStorage.getItem("userRole");
-let you = "", partner = "";
+  // Your Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyCpPyoMbLJhzrMTBN2wELhmqGD2pIT9fxw",
+    authDomain: "lifestyle-together-1a266.firebaseapp.com",
+    projectId: "lifestyle-together-1a266",
+    storageBucket: "lifestyle-together-1a266.firebasestorage.app",
+    messagingSenderId: "1082451095628",
+    appId: "1:1082451095628:web:d79fa49b93b77c0dc244e9"
+  };
 
-if (role === "her") {
-  you = "Advaitha";
-  partner = "Harish";
-} else {
-  you = "Harish";
-  partner = "Advaitha";
-}
-
-const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
-const tasks = ["Study 2 hrs","Exercise 1 hr","15 min Call","Snap / Video"];
-
-function saveTask(day, task, value) {
-  localStorage.setItem(`${day}-${task}`, value);
-}
-
-function loadTasks() {
-  days.forEach(d => {
-    tasks.forEach(t => {
-      const box = document.getElementById(`${d}-${t}`);
-      if (localStorage.getItem(`${d}-${t}`) === "true") {
-        box.checked = true;
-      }
-    });
-  });
-}
-
-function alertToday() {
-  const today = new Date().toLocaleDateString("en-US",{weekday:"long"});
-  tasks.forEach(t => {
-    if (localStorage.getItem(`${today}-${t}`) !== "true") {
-      alert(`⚠️ ${today}: ${t} not completed`);
-    }
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("youName").innerText = you;
-  document.getElementById("partnerName").innerText = partner;
-  loadTasks();
-  alertToday();
-});
+  // Initialize Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 </script>
 
-<header class="top-bar">
-  <span>Plan your day</span>
-  <span>Track your partner</span>
-  <span>Focus together</span>
-</header>
+</head>
+<body>
+<div class="dashboard-container">
+  <header>
+    <h1>Lifestyle Together</h1>
+  </header>
 
-<div class="layout">
+  <div class="main-content">
+    <!-- Left side: Period & Current Status -->
+    <div class="left-panel">
+      <h3>Period</h3>
+      <input type="date" id="period-date">
+      <h3>Current Status</h3>
+      <select id="current-status">
+        <option value="Studying">Studying</option>
+        <option value="Exercise">Exercise</option>
+        <option value="Eating">Eating</option>
+        <option value="Busy">Busy</option>
+        <option value="Tuition">Tuition</option>
+      </select>
+      <button id="save-status">Save Status</button>
+    </div>
 
-  <!-- LEFT -->
-  <div class="side-box">
-    <h3>Period</h3>
-    <input type="date" onchange="localStorage.setItem('period',this.value)">
+    <!-- Center: Weekly Planner -->
+    <div class="center-panel">
+      <div class="top-buttons">
+        <button>Plan Your Day</button>
+        <button>Track Your Partner</button>
+        <button>Focus Together</button>
+      </div>
+      <table id="weekly-planner">
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Studying (2h)</th>
+            <th>Exercise (1h)</th>
+            <th>15 min Call</th>
+            <th>Snap/Video</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Days dynamically generated -->
+        </tbody>
+      </table>
+      <button id="save-tasks">Save Daily Tasks</button>
 
-    <h3>Status</h3>
-    <select onchange="localStorage.setItem('status',this.value)">
-      <option>Studying</option>
-      <option>Tuition</option>
-      <option>Eating</option>
-      <option>Busy</option>
-      <option>Rest</option>
-    </select>
-  </div>
+      <div class="remember-section">
+        <p class="remember-point">• Don't stress, whatever happens, tell your partner</p>
+        <p class="remember-point">• Study for your future</p>
+        <p class="remember-point">• Stay disciplined</p>
+        <p class="remember-point">• First proposal: Nov 24, 2024 (him)</p>
+        <p class="remember-point">• Accepted: Mar 26, 2025 (her)</p>
+        <p class="remember-point">• Take short breaks if tired, but keep going</p>
+      </div>
+    </div>
 
-  <!-- CENTER -->
-  <div class="center-box">
-    <h2>You: <span id="youName"></span> | Partner: <span id="partnerName"></span></h2>
-
-    <table class="planner">
-      <tr>
-        <th>Day</th>
-        <th>Study</th>
-        <th>Exercise</th>
-        <th>Call</th>
-        <th>Snap</th>
-      </tr>
-
-      <script>
-        days.forEach(d => {
-          document.write(`<tr><td>${d}</td>`);
-          tasks.forEach(t => {
-            document.write(`
-              <td>
-                <input type="checkbox"
-                id="${d}-${t}"
-                onchange="saveTask('${d}','${t}',this.checked)">
-              </td>
-            `);
-          });
-          document.write("</tr>");
-        });
-      </script>
-    </table>
-
-    <div class="remember-box">
-      <h4>Remember</h4>
-      <ul>
-        <li>Don’t stress. Talk to your partner.</li>
-        <li>Study for your future.</li>
-        <li>Stay disciplined.</li>
-        <li>First proposal: Nov 24, 2024 (Him)</li>
-        <li>Accepted: Mar 26, 2025 (Her)</li>
-        <li>Take short breaks, but keep going.</li>
-      </ul>
+    <!-- Right side: Notes / Small tasks -->
+    <div class="right-panel">
+      <h3>Notes</h3>
+      <textarea id="notes" rows="10" placeholder="Add your tasks or reminders here..."></textarea>
+      <button id="save-notes">Save Notes</button>
     </div>
   </div>
-
-  <!-- RIGHT -->
-  <div class="side-box">
-    <h3>Notes</h3>
-    <textarea rows="8"
-      onchange="localStorage.setItem('notes',this.value)"
-      placeholder="Things to remember..."></textarea>
-  </div>
-
 </div>
+
+<script>
+const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const tbody = document.querySelector("#weekly-planner tbody");
+
+// Generate table rows
+days.forEach(day=>{
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td>${day}</td>
+    <td><input type="checkbox" class="studying"></td>
+    <td><input type="checkbox" class="exercise"></td>
+    <td><input type="checkbox" class="call"></td>
+    <td><input type="checkbox" class="snap"></td>
+  `;
+  tbody.appendChild(tr);
+});
+
+// Load / Save Tasks for Firebase
+const saveTasksBtn = document.getElementById("save-tasks");
+const saveStatusBtn = document.getElementById("save-status");
+const saveNotesBtn = document.getElementById("save-notes");
+const periodInput = document.getElementById("period-date");
+const statusSelect = document.getElementById("current-status");
+const notesInput = document.getElementById("notes");
+
+// Replace this with unique user IDs for you and your partner
+let currentUser = "user1"; // or "user2" if viewing as partner
+
+function getDayTasks(day){
+  return {
+    studying: tbody.querySelector(`tr:nth-child(${days.indexOf(day)+1}) .studying`).checked,
+    exercise: tbody.querySelector(`tr:nth-child(${days.indexOf(day)+1}) .exercise`).checked,
+    call: tbody.querySelector(`tr:nth-child(${days.indexOf(day)+1}) .call`).checked,
+    snap: tbody.querySelector(`tr:nth-child(${days.indexOf(day)+1}) .snap`).checked
+  }
+}
+
+// Save tasks to Firebase
+saveTasksBtn.addEventListener("click", async()=>{
+  for(let day of days){
+    const tasks = getDayTasks(day);
+    await db.collection("tasks").doc(currentUser+"-"+day).set(tasks);
+  }
+  alert("Tasks saved!");
+});
+
+// Save current status
+saveStatusBtn.addEventListener("click", async()=>{
+  const status = statusSelect.value;
+  const date = periodInput.value;
+  if(!date){ alert("Select date first!"); return; }
+  await db.collection("status").doc(currentUser+"-"+date).set({status});
+  alert("Current status saved!");
+});
+
+// Save notes
+saveNotesBtn.addEventListener("click", async()=>{
+  const date = periodInput.value;
+  const text = notesInput.value;
+  if(!date){ alert("Select date first!"); return; }
+  await db.collection("notes").doc(currentUser+"-"+date).set({text});
+  alert("Notes saved!");
+});
+
+// Load saved data
+async function loadData(){
+  // Load tasks
+  for(let day of days){
+    const doc = await db.collection("tasks").doc(currentUser+"-"+day).get();
+    if(doc.exists){
+      const data = doc.data();
+      const row = tbody.querySelector(`tr:nth-child(${days.indexOf(day)+1})`);
+      row.querySelector(".studying").checked = data.studying;
+      row.querySelector(".exercise").checked = data.exercise;
+      row.querySelector(".call").checked = data.call;
+      row.querySelector(".snap").checked = data.snap;
+    }
+  }
+  // Load status
+  const date = periodInput.value;
+  if(date){
+    const doc = await db.collection("status").doc(currentUser+"-"+date).get();
+    if(doc.exists) statusSelect.value = doc.data().status;
+    const noteDoc = await db.collection("notes").doc(currentUser+"-"+date).get();
+    if(noteDoc.exists) notesInput.value = noteDoc.data().text;
+  }
+}
+
+// Auto-load when date changes
+periodInput.addEventListener("change", loadData);
+
+// Initial load
+loadData();
+</script>
 
 </body>
 </html>
